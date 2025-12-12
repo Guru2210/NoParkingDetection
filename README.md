@@ -266,19 +266,3 @@ pytest tests/ -v
 3. Update documentation
 4. Test thoroughly before deployment
 
-## License
-
-MIT License - See LICENSE file for details
-
-## Support
-
-For issues and questions:
-- GitHub Issues: https://github.com/yourusername/NoParkingDetection/issues
-- Email: your.email@example.com
-
-## Acknowledgments
-
-- YOLOv8 by Ultralytics
-- EasyOCR by JaidedAI
-- Firebase by Google
-- NVIDIA Jetson Community
