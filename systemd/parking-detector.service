@@ -1,0 +1,21 @@
+[Unit]
+Description=No Parking Detection System
+After=network.target
+
+[Service]
+Type=simple
+User=jetson
+WorkingDirectory=/home/jetson/NoParkingDetection
+Environment="PATH=/home/jetson/NoParkingDetection/venv/bin"
+ExecStart=/home/jetson/NoParkingDetection/venv/bin/python main.py --config config.yaml
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Resource limits
+MemoryLimit=3G
+CPUQuota=200%
+
+[Install]
+WantedBy=multi-user.target

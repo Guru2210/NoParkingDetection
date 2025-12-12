@@ -1,0 +1,97 @@
+# No Parking Detection System Configuration
+
+# Camera Settings
+camera:
+  source: "video"  # Options: video, rtsp, csi, usb
+  video_path: "parking_lot_video3.mp4"  # Used when source is 'video'
+  rtsp_url: ""  # Used when source is 'rtsp'
+  usb_device: 0  # Used when source is 'usb'
+  csi_pipeline: ""  # GStreamer pipeline for CSI camera
+  width: 1280
+  height: 720
+  fps: 30
+  reconnect_attempts: 5
+  reconnect_delay: 5  # seconds
+
+# Detection Settings
+detection:
+  # Vehicle Detection
+  vehicle_model: "yolov8n.pt"
+  vehicle_model_tensorrt: "models/yolov8n.engine"
+  vehicle_classes: [2, 3, 5, 7]  # car, motorcycle, bus, truck
+  vehicle_confidence: 0.5
+  
+  # License Plate Detection
+  plate_model: "NumberPlateDetection.pt"
+  plate_model_tensorrt: "models/NumberPlateDetection.engine"
+  plate_confidence: 0.6
+  
+  # TensorRT Settings
+  use_tensorrt: true
+  tensorrt_precision: "fp16"  # Options: fp32, fp16
+  tensorrt_workspace: 4  # GB
+  
+  # Tracking
+  max_disappeared: 5
+  position_threshold: 20  # pixels
+  time_threshold: 10  # seconds for unauthorized parking
+
+# OCR Settings
+ocr:
+  enabled: true
+  gpu: true
+  languages: ['en']  # Add more languages as needed
+  confidence_threshold: 0.7
+  preprocessing:
+    resize_width: 320
+    resize_height: 64
+    enhance_contrast: true
+    denoise: true
+
+# Firestore Settings
+firestore:
+  enabled: true
+  credentials_path: "firebase-credentials.json"
+  collection_name: "parking_violations"
+  storage_bucket: ""  # Your Firebase storage bucket name
+  upload_images: true
+  offline_queue: true
+  batch_size: 10
+
+# Zones Configuration (optional - for multi-zone detection)
+zones:
+  - name: "Zone A"
+    polygon: [[100, 100], [500, 100], [500, 400], [100, 400]]
+    enabled: true
+  # Add more zones as needed
+
+# Performance Settings
+performance:
+  max_fps: 30
+  skip_frames: 0  # Process every Nth frame (0 = process all)
+  batch_size: 1
+  num_threads: 4
+  gpu_memory_fraction: 0.8
+
+# Logging Settings
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_to_file: true
+  log_file: "logs/parking_detector.log"
+  log_rotation: "1 day"
+  log_retention: "30 days"
+
+# Output Settings
+output:
+  save_video: false
+  video_output_path: "output/detection_output.mp4"
+  save_violations: true
+  violations_path: "violations/"
+  display_window: false  # Set to false for headless operation
+
+# Alert Settings (future enhancement)
+alerts:
+  enabled: false
+  email: false
+  sms: false
+  webhook: false
